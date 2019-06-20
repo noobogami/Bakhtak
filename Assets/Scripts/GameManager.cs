@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     private Table table;
 
-
+    
     // Use this for initialization
     void Start()
     {

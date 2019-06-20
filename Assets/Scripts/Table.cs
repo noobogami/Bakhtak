@@ -9,19 +9,25 @@ public class Table : MonoBehaviour
     public GameObject letterPrefab;
 
 
-    public void MakeLetter(int position = -1)
+    public void CreateLetter(int position = -1, int letterId = -1)
     {
         System.Random r = new System.Random();
-        if (position != -1)
+        if (position == -1)
         {
             position = r.Next(0, 8);
+        }
+
+        if (letterId == -1)
+        {
+            letterId = r.Next(0, 32);
         }
 
         int hight = Hight(position);
         letter[position, hight] = Instantiate(letterPrefab).GetComponent<Letter>();
         letter[position, hight].transform.position =
             new Vector3(hight * 135 + 67.5f, position * 135 + 67.5f + 200f, 0.0f);
-        letter[position, hight].id = position;
+        letter[position, hight].id = letterId;
+        
     }
 
     public int Hight(int column)
