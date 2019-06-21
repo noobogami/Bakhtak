@@ -10,7 +10,7 @@ public class ResourceManager : MonoBehaviour
 
     private void LoadLettersSprite()
     {
-        
+        letters = Resources.LoadAll<Sprite>("LetterPack");
     }
     
     
@@ -18,7 +18,7 @@ public class ResourceManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        LoadLettersSprite();
     }
 
     // Update is called once per frame
