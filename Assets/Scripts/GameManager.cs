@@ -7,12 +7,13 @@ public class GameManager : MonoBehaviour
 {
     private float timer;
     private float dropLetterTime;
-    public GameManager instance;
+    public static GameManager instance;
     private bool isLost;
     
     // Use this for initialization
     void Start()
     {
+        //GetComponent<PopupHandler>().ShowMessage("test");
         dropLetterTime = 0.3f;
         instance = this;
         timer = 0;

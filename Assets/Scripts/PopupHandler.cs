@@ -11,6 +11,7 @@ public class PopupHandler : MonoBehaviour
     public void ShowMessage(string message)
     {
         popup.SetActive(true);
+        popupParent.SetActive(true);
         popup.GetComponentInChildren<Text>().text = message;
     }
     

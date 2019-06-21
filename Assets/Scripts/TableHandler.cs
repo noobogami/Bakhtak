@@ -45,7 +45,7 @@ public class TableHandler : MonoBehaviour
             }
         }
 
-        return -1;
+        return -2;
     }
 
     void Start()

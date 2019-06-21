@@ -8,6 +8,7 @@
           <e p="Readme.txt" t="Include" />
         </e>
         <e p="Scripts" t="Include">
+          <e p="ClickHandler.cs" t="Include" />
           <e p="GameManager.cs" t="Include" />
           <e p="Letter.cs" t="Include" />
           <e p="PopupHandler.cs" t="Include" />
