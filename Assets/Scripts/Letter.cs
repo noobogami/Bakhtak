@@ -11,6 +11,6 @@ public class Letter : MonoBehaviour
 
     public void ChangeLetterTo(int letterId)
     {
-        letter.GetComponent<Image>()
+        letter.GetComponent<SpriteRenderer>().sprite = ResourceManager.letters[letterId];
     }
 }
