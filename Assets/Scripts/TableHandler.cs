@@ -10,6 +10,12 @@ public class TableHandler : MonoBehaviour
     public GameObject letterPrefab;
     public GameObject letterParent;
 
+    private float letterAxisToAxis;
+    public static float letterSpacing;
+    public static float letterDimension;
+    public static float bottomMargin;
+    public static float LeftMargin;
+
     public void CreateLetter(int position = -1, int letterId = -1)
     {
         if (position == -1)
@@ -29,7 +35,7 @@ public class TableHandler : MonoBehaviour
         }
         letter[height, position] = Instantiate(letterPrefab,letterParent.transform).GetComponent<Letter>();
         letter[height, position].transform.position =
-            new Vector3(position * 135 + 67.5f, height * 135 + 67.5f + 200f, 0.0f);
+            new Vector3(position * letterAxisToAxis + letterAxisToAxis/2 + LeftMargin, height * letterAxisToAxis + letterAxisToAxis/2 + bottomMargin , 0.0f);
         letter[height, position].id = letterId;
         letter[height, position].ChangeLetterTo(letterId);
         
@@ -55,6 +61,12 @@ public class TableHandler : MonoBehaviour
 
     public void Init()
     {
+        bottomMargin = 200;
+        LeftMargin = 0;
+        letterDimension = 130;
+        letterSpacing = 5;
+        letterAxisToAxis = letterDimension + letterSpacing;
+        
         letter = new Letter[rows, columns];
         CreatRow();
         CreatRow();
