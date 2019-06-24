@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
 
     public void CheckWord()
     {
-        if (word)
+       // if (word)
     }
     private void GameOver()
     {
