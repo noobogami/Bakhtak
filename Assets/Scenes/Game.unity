@@ -435,6 +435,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4783118744717376, guid: 33397a26d391242f2a8c18a57e553345, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4855359531254714, guid: 33397a26d391242f2a8c18a57e553345, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 33397a26d391242f2a8c18a57e553345, type: 3}
 --- !u!1 &436927920
@@ -518,7 +526,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 436927923}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1344389719}
+        m_MethodName: CheckWord
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &436927923
@@ -1116,6 +1135,7 @@ GameObject:
   - component: {fileID: 1344389721}
   - component: {fileID: 1344389722}
   - component: {fileID: 1344389723}
+  - component: {fileID: 1344389724}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -1135,6 +1155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1723a213751b84dc799bb08dea394269, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dropLetterTime: 1
   madeWord: {fileID: 1086269333}
 --- !u!4 &1344389720
 Transform:
@@ -1166,7 +1187,7 @@ MonoBehaviour:
   columns: 8
   letterPrefab: {fileID: 1575021505877312, guid: 33397a26d391242f2a8c18a57e553345,
     type: 3}
-  letterParent: {fileID: 763971264}
+  letterParent: {fileID: 763971265}
 --- !u!114 &1344389722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1193,6 +1214,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   popupParent: {fileID: 16023005}
   popup: {fileID: 466942661}
+--- !u!114 &1344389724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1344389718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86938ca6824c749f0a1de6e6e45b9792, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debug: {fileID: 0}
+  input: {fileID: 0}
+  input2: {fileID: 0}
+  input3: {fileID: 0}
 --- !u!4 &1462065203
 Transform:
   m_ObjectHideFlags: 0

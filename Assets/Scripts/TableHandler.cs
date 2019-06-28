@@ -8,7 +8,7 @@ public class TableHandler : MonoBehaviour
     public Letter[,] letter;
     public int rows, columns;
     public GameObject letterPrefab;
-    public GameObject letterParent;
+    public Transform letterParent;
 
     private float letterAxisToAxis;
     public static float letterSpacing;
@@ -33,12 +33,15 @@ public class TableHandler : MonoBehaviour
         {
             throw new LostException();
         }
-        letter[height, position] = Instantiate(letterPrefab,letterParent.transform).GetComponent<Letter>();
+        letter[height, position] = Instantiate(letterPrefab,letterParent).GetComponent<Letter>();
         letter[height, position].transform.position =
             new Vector3(position * letterAxisToAxis + letterAxisToAxis/2 + LeftMargin, height * letterAxisToAxis + letterAxisToAxis/2 + bottomMargin , 0.0f);
+        letter[height, position].GetComponent<Animator>().SetTrigger("DropFromTop");
+        
         letter[height, position].id = letterId;
         letter[height, position].ChangeLetterTo(letterId);
-        
+        letter[height, position].x = position;
+        letter[height, position].y = height;
     }
 
     private int Height(int column)
@@ -71,6 +74,7 @@ public class TableHandler : MonoBehaviour
         CreatRow();
         CreatRow();
         CreatRow();
+        CreatRow();
     }
 
     public void CreatRow()
@@ -80,6 +84,36 @@ public class TableHandler : MonoBehaviour
             CreateLetter(i);
         }
         
+    }
+
+    public void PopLetter(int x, int y)
+    {
+        int i;
+        for (i = y; i < rows-1; i++)
+        {
+            print(i);
+            if (letter[i+1,x] != null)
+            {
+                print($"destoryed {letter[i, x].id}");
+                letter[i, x].DestroyLetter();
+                letter[i, x] = Instantiate(letterPrefab, letterParent).GetComponent<Letter>();
+                letter[i, x].GetComponent<Animator>().SetTrigger("DropOneRow");
+                
+                letter[i, x].y = i;
+                letter[i, x].x = x;
+                letter[i, x].id = letter[i + 1, x].id;
+                letter[i, x].ChangeLetterTo(letter[i + 1, x].id);
+                
+                letter[i, x].transform.position =
+                    new Vector3(x * letterAxisToAxis + letterAxisToAxis/2 + LeftMargin, i * letterAxisToAxis + letterAxisToAxis/2 + bottomMargin , 0.0f);
+            }
+            else
+            {
+                break;
+            }
+        }
+        letter[i, x].DestroyLetter();
+        letter[i, x] = null;
     }
 
     // Update is called once per frame
