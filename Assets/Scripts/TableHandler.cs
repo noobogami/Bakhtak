@@ -111,7 +111,10 @@ public class TableHandler : MonoBehaviour
             if (letter[i+1,x] != null)
             {
                 print($"destoryed {letter[i, x].id}");
-                letter[i, x].DestroyLetter();
+                
+                DropLetter(x, i);
+                
+                /*letter[i, x].DestroyLetter();
                 letter[i, x] = Instantiate(letterPrefab, letterParent).GetComponent<Letter>();
                 letter[i, x].GetComponent<Animator>().SetTrigger("DropOneRow");
                 
@@ -121,7 +124,7 @@ public class TableHandler : MonoBehaviour
                 letter[i, x].ChangeLetterTo(letter[i + 1, x].id);
                 
                 letter[i, x].transform.position =
-                    new Vector3(x * letterAxisToAxis + letterAxisToAxis/2 + LeftMargin, i * letterAxisToAxis + letterAxisToAxis/2 + bottomMargin , 0.0f);
+                    new Vector3(x * letterAxisToAxis + letterAxisToAxis/2 + LeftMargin, i * letterAxisToAxis + letterAxisToAxis/2 + bottomMargin , 0.0f);*/
             }
             else
             {
@@ -132,7 +135,28 @@ public class TableHandler : MonoBehaviour
         letter[i, x] = null;
     }
 
-    // Update is called once per frame
+    public void DropLetter(int x, int y)
+    {
+        while (letter[y - 1, x] != null && y > 0)
+        {
+            letter[y - 1, x] = Instantiate(letterPrefab, letterParent).GetComponent<Letter>();
+            letter[y - 1, x].GetComponent<Animator>().SetTrigger("DropOneRow");
+            letter[y - 1, x].y = y - 1;
+            letter[y - 1, x].x = x;
+            letter[y - 1, x].id = letter[y, x].id;
+            letter[y - 1, x].ChangeLetterTo(letter[y, x].id);
+
+            letter[y - 1, x].transform.position =
+                new Vector3(x * letterAxisToAxis + letterAxisToAxis / 2 + LeftMargin,
+                    (y - 1) * letterAxisToAxis + letterAxisToAxis / 2 + bottomMargin, 0.0f);
+
+            letter[y, x].DestroyLetter();
+            letter[y, x] = null;
+
+            y--;
+        }
+    }
+    
     void Update()
     {
     }
