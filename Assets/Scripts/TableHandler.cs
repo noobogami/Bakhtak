@@ -42,6 +42,7 @@ public class TableHandler : MonoBehaviour
         letter[height, position].ChangeLetterTo(letterId);
         letter[height, position].x = position;
         letter[height, position].y = height;
+        //print($"{Utility.dic_idToChar[letterId]} created on " + position);
     }
 
     private int Height(int column)
@@ -64,6 +65,7 @@ public class TableHandler : MonoBehaviour
 
     public void Init()
     {
+        ResetTable();
         bottomMargin = 200;
         LeftMargin = 0;
         letterDimension = 130;
@@ -75,8 +77,22 @@ public class TableHandler : MonoBehaviour
         CreatRow();
         CreatRow();
         CreatRow();
+        
+        /*CreateLetter(0);
+        CreateLetter(0);
+        CreateLetter(0);
+        CreateLetter(0);
+        CreateLetter(0);
+        CreateLetter(0);*/
     }
 
+    public void ResetTable()
+    {
+        for (int i = 0; i < letterParent.childCount; i++)
+        {
+            Destroy(letterParent.GetChild(i).gameObject);
+        }
+    }
     public void CreatRow()
     {
         for (int i=0; i<columns; i++)

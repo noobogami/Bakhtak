@@ -387,10 +387,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Letter
       objectReference: {fileID: 0}
-    - target: {fileID: 1575021505877312, guid: 33397a26d391242f2a8c18a57e553345, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4950456087476302, guid: 33397a26d391242f2a8c18a57e553345, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -433,14 +429,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4950456087476302, guid: 33397a26d391242f2a8c18a57e553345, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4783118744717376, guid: 33397a26d391242f2a8c18a57e553345, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4855359531254714, guid: 33397a26d391242f2a8c18a57e553345, type: 3}
-      propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1155,7 +1143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1723a213751b84dc799bb08dea394269, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dropLetterTime: 1
+  dropLetterTime: 20
   madeWord: {fileID: 1086269333}
 --- !u!4 &1344389720
 Transform:

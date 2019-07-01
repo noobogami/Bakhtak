@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-//using Mono.Data.SqliteClient;
+using Mono.Data.SqliteClient;
 using System.Data;
 using UnityEngine.UI;
 using System;
@@ -34,7 +34,7 @@ public class DatabaseManager : MonoBehaviour
     private IDbConnection dbConnection;
 
     internal void Init()
-    {/*
+    {
         wordsConnectionString = "URI=file:" + Application.persistentDataPath + "/words.db3";
         progressConnectionString = "URI=file:" + Application.persistentDataPath + "/progress.db3";
 
@@ -75,7 +75,7 @@ public class DatabaseManager : MonoBehaviour
                     }
                 }
             }
-        }*/
+        }
     }
 
 

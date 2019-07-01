@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
 
     public RtlText madeWord;
     private string word;
+    private int letterCounter;
     
     void Start()
     {
@@ -22,13 +23,13 @@ public class GameManager : MonoBehaviour
         instance = this;
         timer = 0;
         isLost = false;
-        
+
+        letterCounter = 0;
         madeWord.text = "";
         madeWordX = new List<int>();
         madeWordY = new List<int>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         timer += Time.deltaTime;
@@ -47,7 +48,7 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void AddLetter(int letterId, int x, int y)
+    public int AddLetter(int letterId, int x, int y)
     {
         print(Utility.dic_idToChar[letterId]);
         word += Utility.dic_idToChar[letterId];
@@ -55,6 +56,19 @@ public class GameManager : MonoBehaviour
         
         madeWordX.Add(x);
         madeWordY.Add(y);
+        letterCounter++;
+        return letterCounter;
+    }
+    public void RemoveLetter(int letterNo, int x = -1, int y = -1)
+    {
+        print(Utility.dic_idToChar[letterNo]);
+        word = word.Remove(letterNo-1,1);
+        madeWord.text = word;
+        print(word);
+        
+        madeWordX.RemoveAt(letterNo-1);
+        madeWordY.RemoveAt(letterNo-1);
+        letterCounter--;
     }
 
     public void CheckWord()
@@ -67,6 +81,7 @@ public class GameManager : MonoBehaviour
             madeWord.text = word;
             madeWordX = new List<int>();
             madeWordY = new List<int>();
+            letterCounter = 0;
         }
     }
 
@@ -77,13 +92,11 @@ public class GameManager : MonoBehaviour
             GetComponent<TableHandler>().PopLetter(madeWordX[i], madeWordY[i]);
         }
     }
-
+    
     private void GameOver()
     {
         print("You Lost");
         GetComponent<PopupHandler>().ShowMessage("You Lost!");
         isLost = true;
     }
-    
-    
 }
