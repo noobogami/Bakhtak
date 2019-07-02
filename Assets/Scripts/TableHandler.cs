@@ -16,48 +16,6 @@ public class TableHandler : MonoBehaviour
     public static float bottomMargin;
     public static float LeftMargin;
 
-    public void CreateLetter(int position = -1, int letterId = -1)
-    {
-        if (position == -1)
-        {
-            position = Utility.CreatRandom(0, columns);
-        }
-
-        if (letterId == -1)
-        {
-            letterId = Utility.CreatRandom(0, 32);
-        }
-
-        int height = Height(position);
-        if (height == -2)
-        {
-            throw new LostException();
-        }
-        letter[height, position] = Instantiate(letterPrefab,letterParent).GetComponent<Letter>();
-        letter[height, position].transform.position =
-            new Vector3(position * letterAxisToAxis + letterAxisToAxis/2 + LeftMargin, height * letterAxisToAxis + letterAxisToAxis/2 + bottomMargin , 0.0f);
-        letter[height, position].GetComponent<Animator>().SetTrigger("DropFromTop");
-        
-        letter[height, position].id = letterId;
-        letter[height, position].ChangeLetterTo(letterId);
-        letter[height, position].x = position;
-        letter[height, position].y = height;
-        //print($"{Utility.dic_idToChar[letterId]} created on " + position);
-    }
-
-    private int Height(int column)
-    {
-        for (int i = 0; i < rows; i++)
-        {
-            if (letter[i, column] == null)
-            {
-                return i;
-            }
-        }
-
-        return -2;
-    }
-
     void Start()
     {
         Init();
@@ -72,11 +30,11 @@ public class TableHandler : MonoBehaviour
         letterSpacing = 5;
         letterAxisToAxis = letterDimension + letterSpacing;
         
-        letter = new Letter[rows, columns];
+        letter = new Letter[columns, rows];
+        /*CreatRow();
         CreatRow();
         CreatRow();
-        CreatRow();
-        CreatRow();
+        CreatRow();*/
         
         /*CreateLetter(0);
         CreateLetter(0);
@@ -84,14 +42,60 @@ public class TableHandler : MonoBehaviour
         CreateLetter(0);
         CreateLetter(0);
         CreateLetter(0);*/
+        
+        CreateLetter(4,1,6, false);
+        //CreateLetter(4,1,7, false);
+        DropLetter(4,6);
     }
-
     public void ResetTable()
     {
         for (int i = 0; i < letterParent.childCount; i++)
         {
             Destroy(letterParent.GetChild(i).gameObject);
         }
+    }
+    public void CreateLetter(int position = -1, int letterId = -1, int y = -1, bool withAnimation = true)
+    {
+        if (position == -1)
+        {
+            position = Utility.CreatRandom(0, columns);
+        }
+
+        if (letterId == -1)
+        {
+            letterId = Utility.CreatRandom(0, 32);
+        }
+
+        int height;
+        if (y == -1)
+        {
+            height = Height(position);
+        }
+        else
+        {
+            height = y;
+        }
+        if (height == -2)
+        {
+            throw new LostException();
+        }
+        
+        
+        
+        letter[position, height] = Instantiate(letterPrefab,letterParent).GetComponent<Letter>();
+        letter[position, height].transform.position =
+            new Vector3(position * letterAxisToAxis + letterAxisToAxis/2 + LeftMargin, height * letterAxisToAxis + letterAxisToAxis/2 + bottomMargin , 0.0f);
+
+        if (withAnimation)
+        {
+            letter[position, height].GetComponent<Animator>().SetTrigger("DropFromTop");
+        }
+        
+        letter[position, height].id = letterId;
+        letter[position, height].ChangeLetterTo(letterId);
+        letter[position, height].x = position;
+        letter[position, height].y = height;
+        //print($"{Utility.dic_idToChar[letterId]} created on " + position);
     }
     public void CreatRow()
     {
@@ -101,6 +105,18 @@ public class TableHandler : MonoBehaviour
         }
         
     }
+    private int Height(int column)
+    {
+        for (int i = 0; i < rows; i++)
+        {
+            if (letter[column, i] == null)
+            {
+                return i;
+            }
+        }
+
+        return -2;
+    }
 
     public void PopLetter(int x, int y)
     {
@@ -108,20 +124,20 @@ public class TableHandler : MonoBehaviour
         for (i = y; i < rows-1; i++)
         {
             print(i);
-            if (letter[i+1,x] != null)
+            if (letter[x, i+1] != null)
             {
-                print($"destoryed {letter[i, x].id}");
+                print($"destoryed {letter[x, i].id}");
                 
                 DropLetter(x, i);
                 
-                /*letter[i, x].DestroyLetter();
-                letter[i, x] = Instantiate(letterPrefab, letterParent).GetComponent<Letter>();
-                letter[i, x].GetComponent<Animator>().SetTrigger("DropOneRow");
+                /*letter[x, i].DestroyLetter();
+                letter[x, i] = Instantiate(letterPrefab, letterParent).GetComponent<Letter>();
+                letter[x, i].GetComponent<Animator>().SetTrigger("DropOneRow");
                 
-                letter[i, x].y = i;
-                letter[i, x].x = x;
-                letter[i, x].id = letter[i + 1, x].id;
-                letter[i, x].ChangeLetterTo(letter[i + 1, x].id);
+                letter[x, i].y = i;
+                letter[x, i].x = x;
+                letter[x, i].id = letter[x, i+1].id;
+                letter[x, i].ChangeLetterTo(letter[x, i+1].id);
                 
                 letter[i, x].transform.position =
                     new Vector3(x * letterAxisToAxis + letterAxisToAxis/2 + LeftMargin, i * letterAxisToAxis + letterAxisToAxis/2 + bottomMargin , 0.0f);*/
@@ -131,38 +147,36 @@ public class TableHandler : MonoBehaviour
                 break;
             }
         }
-        letter[i, x].DestroyLetter();
-        letter[i, x] = null;
+        letter[x, i].DestroyLetter();
+        letter[x, i] = null;
     }
-
-    public void DropLetter(int x, int y)
+    public void DropLetter(int x, int y, bool withAnimation = true)
     {
-        while (letter[y - 1, x] != null && y > 0)
+        while (letter[x, y - 1] != null && y > 0)
         {
-            letter[y - 1, x] = Instantiate(letterPrefab, letterParent).GetComponent<Letter>();
-            letter[y - 1, x].GetComponent<Animator>().SetTrigger("DropOneRow");
-            letter[y - 1, x].y = y - 1;
-            letter[y - 1, x].x = x;
-            letter[y - 1, x].id = letter[y, x].id;
-            letter[y - 1, x].ChangeLetterTo(letter[y, x].id);
+            letter[x, y - 1] = Instantiate(letterPrefab, letterParent).GetComponent<Letter>();
 
-            letter[y - 1, x].transform.position =
+            if (withAnimation)
+            {
+                letter[x, y - 1].GetComponent<Animator>().SetTrigger("DropOneRow");
+            }
+            
+            letter[x, y - 1].y = y - 1;
+            letter[x, y - 1].x = x;
+            letter[x, y - 1].id = letter[x,y].id;
+            letter[x, y - 1].ChangeLetterTo(letter[x, y].id);
+
+            letter[x, y - 1].transform.position =
                 new Vector3(x * letterAxisToAxis + letterAxisToAxis / 2 + LeftMargin,
                     (y - 1) * letterAxisToAxis + letterAxisToAxis / 2 + bottomMargin, 0.0f);
 
-            letter[y, x].DestroyLetter();
-            letter[y, x] = null;
+            letter[x, y].DestroyLetter();
+            letter[x, y] = null;
 
             y--;
         }
     }
-    
-    void Update()
-    {
-    }
 }
-
 public class LostException : Exception
 {
-    
 }
