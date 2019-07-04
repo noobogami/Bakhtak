@@ -12,61 +12,27 @@ public class Letter : MonoBehaviour, IPointerClickHandler
     [FormerlySerializedAs("letter")] public GameObject letterImage;
     internal int id;
     internal int x, y;
-    private bool isSelected;
-    private int selectedCount;
+    internal bool isSelected;
+    
+    public int selectedCount;
 
     void Start()
     {
         isSelected = false;
         selectedCount = -1;
-        VisualyStart();
+        GraphicManager.instance.initLetter(this);
     }
 
-    public void ChangeLetterTo(int letterId)
+    public void SetLetterId(int letterId)
     {
         letterImage.GetComponent<SpriteRenderer>().sprite = ResourceManager.letters[letterId];
+        id = letterId;
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (isSelected)
-        {
-            isSelected = false;
-            GameManager.instance.RemoveLetter(selectedCount);
-            selectedCount = -1;
-            
-            VisualyDeselectLetter();
-        }
-
-        else if (!isSelected)
-        {
-            isSelected = true;
-            selectedCount = GameManager.instance.AddLetter(id, x, y);
-            
-            VisualySelectLetter();
-        }
-
+        GameManager.instance.LetterClicked(this);
+       
         print($"{Utility.dic_idToChar[id]} Clicked");
-    }
-
-    public void VisualyStart()
-    {
-        BNormal.SetActive(true);
-        BSelected.SetActive(false);
-        letterImage.SetActive(true);
-    }
-    public void VisualySelectLetter()
-    {
-        BNormal.SetActive(false);
-        BSelected.SetActive(true);
-    }
-    public void VisualyDeselectLetter()
-    {
-        BNormal.SetActive(true);
-        BSelected.SetActive(false);
-    }
-    public void DestroyLetter()
-    {
-        Destroy(gameObject);
     }
 }

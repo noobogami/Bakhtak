@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class TableHandler : MonoBehaviour
 {
-    public Letter[,] letter;
+    public Letter[,] table;
+    
     public int rows, columns;
     public GameObject letterPrefab;
     public Transform letterParent;
@@ -30,24 +31,15 @@ public class TableHandler : MonoBehaviour
         letterSpacing = 5;
         letterAxisToAxis = letterDimension + letterSpacing;
         
-        letter = new Letter[columns, rows];
-        /*CreatRow();
+        table = new Letter[columns, rows];
         CreatRow();
         CreatRow();
-        CreatRow();*/
+        CreatRow();
+        CreatRow();
         
-        /*CreateLetter(0);
-        CreateLetter(0);
-        CreateLetter(0);
-        CreateLetter(0);
-        CreateLetter(0);
-        CreateLetter(0);*/
-        
-        CreateLetter(4,1,6, false);
-        //CreateLetter(4,1,7, false);
-        DropLetter(4,6);
+        Gravity();
     }
-    public void ResetTable()
+    private void ResetTable()
     {
         for (int i = 0; i < letterParent.childCount; i++)
         {
@@ -69,7 +61,7 @@ public class TableHandler : MonoBehaviour
         int height;
         if (y == -1)
         {
-            height = Height(position);
+            height = GetAvailableHeight(position);
         }
         else
         {
@@ -82,19 +74,19 @@ public class TableHandler : MonoBehaviour
         
         
         
-        letter[position, height] = Instantiate(letterPrefab,letterParent).GetComponent<Letter>();
-        letter[position, height].transform.position =
+        table[position, height] = Instantiate(letterPrefab,letterParent).GetComponent<Letter>();
+        table[position, height].transform.position =
             new Vector3(position * letterAxisToAxis + letterAxisToAxis/2 + LeftMargin, height * letterAxisToAxis + letterAxisToAxis/2 + bottomMargin , 0.0f);
 
         if (withAnimation)
         {
-            letter[position, height].GetComponent<Animator>().SetTrigger("DropFromTop");
+            table[position, height].GetComponent<Animator>().SetTrigger("DropFromTop");
         }
         
-        letter[position, height].id = letterId;
-        letter[position, height].ChangeLetterTo(letterId);
-        letter[position, height].x = position;
-        letter[position, height].y = height;
+        table[position, height].id = letterId;
+        table[position, height].SetLetterId(letterId);
+        table[position, height].x = position;
+        table[position, height].y = height;
         //print($"{Utility.dic_idToChar[letterId]} created on " + position);
     }
     public void CreatRow()
@@ -105,11 +97,11 @@ public class TableHandler : MonoBehaviour
         }
         
     }
-    private int Height(int column)
+    private int GetAvailableHeight(int column)
     {
         for (int i = 0; i < rows; i++)
         {
-            if (letter[column, i] == null)
+            if (table[column, i] == null)
             {
                 return i;
             }
@@ -118,61 +110,50 @@ public class TableHandler : MonoBehaviour
         return -2;
     }
 
-    public void PopLetter(int x, int y)
+    public void PopLetters(List<Letter> popingLetter)
     {
-        int i;
-        for (i = y; i < rows-1; i++)
+        foreach (Letter letter in popingLetter)
         {
-            print(i);
-            if (letter[x, i+1] != null)
+            DestroyImmediate(letter.gameObject);
+        }
+        
+        Gravity();
+    }
+
+    private void Gravity()
+    {
+        for (int i = 0; i < columns; i++)
+        {
+            for (int j = 0; j < rows; j++)
             {
-                print($"destoryed {letter[x, i].id}");
-                
-                DropLetter(x, i);
-                
-                /*letter[x, i].DestroyLetter();
-                letter[x, i] = Instantiate(letterPrefab, letterParent).GetComponent<Letter>();
-                letter[x, i].GetComponent<Animator>().SetTrigger("DropOneRow");
-                
-                letter[x, i].y = i;
-                letter[x, i].x = x;
-                letter[x, i].id = letter[x, i+1].id;
-                letter[x, i].ChangeLetterTo(letter[x, i+1].id);
-                
-                letter[i, x].transform.position =
-                    new Vector3(x * letterAxisToAxis + letterAxisToAxis/2 + LeftMargin, i * letterAxisToAxis + letterAxisToAxis/2 + bottomMargin , 0.0f);*/
-            }
-            else
-            {
-                break;
+                if (j > 0 && table[i, j] != null && table[i, j - 1] == null)
+                {
+                    //print("ready for droping " + table[i, j] + " " + i + " " + j);
+                    DropLetter(table[i, j]);
+                }
+
+                //print(table[i, j]);
             }
         }
-        letter[x, i].DestroyLetter();
-        letter[x, i] = null;
     }
-    public void DropLetter(int x, int y, bool withAnimation = true)
+    private void DropLetter(Letter letter, bool withAnimation = true)
     {
-        while (letter[x, y - 1] != null && y > 0)
+        int x = letter.x;
+        int y = letter.y;
+        //print("droping " + table[x, y] + " on " + table[x,y-1]);
+        while (y > 0 && table[x, y - 1] == null)
         {
-            letter[x, y - 1] = Instantiate(letterPrefab, letterParent).GetComponent<Letter>();
-
+            //print("droping " + table[x, y]);
+            table[x, y].y--;
+            table[x, y].transform.position = new Vector3(x * letterAxisToAxis + letterAxisToAxis / 2 + LeftMargin,
+                (y - 1) * letterAxisToAxis + letterAxisToAxis / 2 + bottomMargin, 0.0f);
             if (withAnimation)
             {
-                letter[x, y - 1].GetComponent<Animator>().SetTrigger("DropOneRow");
+                table[x, y].GetComponent<Animator>().SetTrigger("DropOneRow");
             }
             
-            letter[x, y - 1].y = y - 1;
-            letter[x, y - 1].x = x;
-            letter[x, y - 1].id = letter[x,y].id;
-            letter[x, y - 1].ChangeLetterTo(letter[x, y].id);
-
-            letter[x, y - 1].transform.position =
-                new Vector3(x * letterAxisToAxis + letterAxisToAxis / 2 + LeftMargin,
-                    (y - 1) * letterAxisToAxis + letterAxisToAxis / 2 + bottomMargin, 0.0f);
-
-            letter[x, y].DestroyLetter();
-            letter[x, y] = null;
-
+            table[x, y-1] = table[x,y];
+            table[x, y] = null;
             y--;
         }
     }

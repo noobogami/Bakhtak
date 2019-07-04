@@ -10,24 +10,35 @@ public class GameManager : MonoBehaviour
     public float dropLetterTime;
     public static GameManager instance;
     private bool isLost;
-    private List<int> madeWordX;
-    private List<int> madeWordY;
+    
+    private List<Letter> selectedLetters;
+
+    private TableHandler tableHandler;
+    private PopupHandler popupHandler;
+    private GraphicManager graphicManager;
 
     public RtlText madeWord;
     private string word;
-    private int letterCounter;
     
     void Start()
     {
-        //GetComponent<PopupHandler>().ShowMessage("test");
         instance = this;
+        
+        init();
+    }
+
+    private void init()
+    {
+        //GetComponent<PopupHandler>().ShowMessage("test");
         timer = 0;
         isLost = false;
 
-        letterCounter = 0;
         madeWord.text = "";
-        madeWordX = new List<int>();
-        madeWordY = new List<int>();
+        
+        selectedLetters = new List<Letter>();
+        tableHandler = GetComponent<TableHandler>();
+        popupHandler = GetComponent<PopupHandler>();
+        graphicManager = GetComponent<GraphicManager>();
     }
 
     void Update()
@@ -37,7 +48,7 @@ public class GameManager : MonoBehaviour
         {
             try
             {
-                GetComponent<TableHandler>().CreateLetter();
+                tableHandler.CreateLetter();
             }
             catch (Exception e)
             {
@@ -45,58 +56,61 @@ public class GameManager : MonoBehaviour
             }
             timer = 0;
         }
-
     }
-
-    public int AddLetter(int letterId, int x, int y)
+    public void LetterClicked(Letter clickedLetter)
     {
-        print(Utility.dic_idToChar[letterId]);
-        word += Utility.dic_idToChar[letterId];
-        madeWord.text = word;
+        if (clickedLetter.isSelected)
+        {
+            RemoveLetter(clickedLetter);
+            graphicManager.DeselectLetter(clickedLetter);
+            clickedLetter.isSelected = false;
+        }
+        else
+        {
+            AddLetter(clickedLetter);
+            graphicManager.SelectLetter(clickedLetter);
+            clickedLetter.isSelected = true;
+        }
+    }
+    public void AddLetter(Letter addingLetter)
+    {
+        selectedLetters.Add(addingLetter);
         
-        madeWordX.Add(x);
-        madeWordY.Add(y);
-        letterCounter++;
-        return letterCounter;
+        word += Utility.dic_idToChar[addingLetter.id];
+        madeWord.text = word;
     }
-    public void RemoveLetter(int letterNo, int x = -1, int y = -1)
+    public void RemoveLetter(Letter deselectedLetter)
     {
-        print(Utility.dic_idToChar[letterNo]);
-        word = word.Remove(letterNo-1,1);
+        for (int i = 0; i < selectedLetters.Count; i++)
+        {
+            if (deselectedLetter == selectedLetters[i])
+            {
+                selectedLetters.RemoveAt(i);
+                print($"word no {i} deleted: " + word[i] + $" deselected letter was {Utility.dic_idToChar[deselectedLetter.id]}");
+                word = word.Remove(i,1);
+                break;
+            }
+        }
         madeWord.text = word;
         print(word);
-        
-        madeWordX.RemoveAt(letterNo-1);
-        madeWordY.RemoveAt(letterNo-1);
-        letterCounter--;
     }
 
     public void CheckWord()
     {
         if (DatabaseManager.instance.IsCorrect(word))
         {
-            PopLetters(word);
+            tableHandler.PopLetters(selectedLetters);
             
             word = "";
+            selectedLetters = new List<Letter>();
             madeWord.text = word;
-            madeWordX = new List<int>();
-            madeWordY = new List<int>();
-            letterCounter = 0;
-        }
-    }
-
-    private void PopLetters(string popingWord)
-    {
-        for (int i = 0; i < popingWord.Length; i++)
-        {
-            GetComponent<TableHandler>().PopLetter(madeWordX[i], madeWordY[i]);
         }
     }
     
     private void GameOver()
     {
         print("You Lost");
-        GetComponent<PopupHandler>().ShowMessage("You Lost!");
+        popupHandler.ShowMessage("You Lost!");
         isLost = true;
     }
 }

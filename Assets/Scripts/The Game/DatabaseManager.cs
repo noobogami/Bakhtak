@@ -10,11 +10,11 @@ public class DatabaseManager : MonoBehaviour
 {
     internal static DatabaseManager instance;
 
-    public Text debug;
+    /*public Text debug;
     public InputField input;
 
     public InputField input2;
-    public InputField input3;
+    public InputField input3;*/
 
     private string wordsConnectionString;
     private string progressConnectionString;
@@ -29,15 +29,14 @@ public class DatabaseManager : MonoBehaviour
         }
 
         instance = this;
+        Init();
     }
 
     private IDbConnection dbConnection;
 
     internal void Init()
     {
-        wordsConnectionString = "URI=file:" + Application.persistentDataPath + "/words.db3";
-        progressConnectionString = "URI=file:" + Application.persistentDataPath + "/progress.db3";
-
+        wordsConnectionString = "URI=file:" + Application.streamingAssetsPath + "/words.db3";
 
         try
         {
@@ -46,35 +45,8 @@ public class DatabaseManager : MonoBehaviour
         }
         catch (Exception e)
         {
-            debug.text = e + "";
-        }
-
-        using (IDbConnection pConn = new SqliteConnection(progressConnectionString))
-        {
-            pConn.Open();
-            using (IDbCommand cmd = pConn.CreateCommand())
-            {
-                string sqlQuery = "SELECT * FROM `datas` WHERE `option`='gem';";
-                cmd.CommandText = sqlQuery;
-                using (IDataReader reader = cmd.ExecuteReader())
-                {
-                    if (!reader.Read())
-                    {
-                        int all = 0;
-                        cmd.CommandText = "SELECT * FROM `progress`;";
-                        using (IDataReader reader2 = cmd.ExecuteReader())
-                        {
-                            while (reader2.Read())
-                            {
-                                all += reader2.GetInt32(2);
-                            }
-                        }
-
-                        cmd.CommandText = string.Format("INSERT INTO `datas` VALUES ('gem',{0});", all);
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-            }
+            print("WTF!");
+//            debug.text = e + "";
         }
     }
 
