@@ -94,7 +94,14 @@ public class GameManager : MonoBehaviour
         madeWord.text = word;
         print(word);
     }
-
+    
+    public void RemoveAllLetters()
+    {
+        for (int i = 0; i < selectedLetters.Count; i++)
+        {
+            RemoveLetter(selectedLetters[i]);
+        }
+    }
     public void CheckWord()
     {
         if (DatabaseManager.instance.IsCorrect(word))
@@ -104,6 +111,10 @@ public class GameManager : MonoBehaviour
             word = "";
             selectedLetters = new List<Letter>();
             madeWord.text = word;
+        }
+        else
+        {
+            popupHandler.WrongWord();
         }
     }
     

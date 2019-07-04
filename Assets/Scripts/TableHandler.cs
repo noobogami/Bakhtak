@@ -21,7 +21,6 @@ public class TableHandler : MonoBehaviour
     {
         Init();
     }
-
     public void Init()
     {
         ResetTable();
@@ -81,6 +80,8 @@ public class TableHandler : MonoBehaviour
         if (withAnimation)
         {
             table[position, height].GetComponent<Animator>().SetTrigger("DropFromTop");
+            AnimationHandler.CreateDropAnim(0,100);
+            //table[position, height].GetComponent<Animator>()
         }
         
         table[position, height].id = letterId;
@@ -109,7 +110,6 @@ public class TableHandler : MonoBehaviour
 
         return -2;
     }
-
     public void PopLetters(List<Letter> popingLetter)
     {
         foreach (Letter letter in popingLetter)
@@ -119,7 +119,6 @@ public class TableHandler : MonoBehaviour
         
         Gravity();
     }
-
     private void Gravity()
     {
         for (int i = 0; i < columns; i++)

@@ -30,6 +30,7 @@
           <e p="Readme.txt" t="Include" />
         </e>
         <e p="Scripts" t="Include">
+          <e p="AnimationHandler.cs" t="Include" />
           <e p="GameManager.cs" t="Include" />
           <e p="GraphicManager.cs" t="Include" />
           <e p="Letter.cs" t="Include" />

@@ -53,7 +53,7 @@ public class DatabaseManager : MonoBehaviour
 
     public bool IsCorrect(string word)
     {
-        return true;
+        //return true;
         try
         {
             using (IDbCommand cmd = dbConnection.CreateCommand())
