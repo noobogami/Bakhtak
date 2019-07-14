@@ -21,10 +21,11 @@ public class TableHandler : MonoBehaviour
     {
         Init();
     }
+
     public void Init()
     {
         ResetTable();
-        bottomMargin = 200;
+        bottomMargin = 330;
         LeftMargin = 0;
         letterDimension = 130;
         letterSpacing = 5;

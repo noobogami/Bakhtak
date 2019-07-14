@@ -387,6 +387,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Letter
       objectReference: {fileID: 0}
+    - target: {fileID: 1575021505877312, guid: 33397a26d391242f2a8c18a57e553345, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4950456087476302, guid: 33397a26d391242f2a8c18a57e553345, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -469,8 +473,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 96}
-  m_SizeDelta: {x: 577.7, y: 160}
+  m_AnchoredPosition: {x: 0, y: 237.8}
+  m_SizeDelta: {x: 1080, y: 160}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &436927922
 MonoBehaviour:
@@ -541,14 +545,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 89c4848187d794f7987c2d06d8930adf, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -594,7 +598,7 @@ GameObject:
   - component: {fileID: 665786916}
   - component: {fileID: 665786915}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: EndWord
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -650,7 +654,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UiScaleMode: 0
-  m_ReferencePixelsPerUnit: 100
+  m_ReferencePixelsPerUnit: 1
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
@@ -1204,6 +1208,7 @@ GameObject:
   - component: {fileID: 1344389723}
   - component: {fileID: 1344389724}
   - component: {fileID: 1344389725}
+  - component: {fileID: 1344389726}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -1223,7 +1228,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1723a213751b84dc799bb08dea394269, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dropLetterTime: 1
   madeWord: {fileID: 1086269333}
 --- !u!4 &1344389720
 Transform:
@@ -1307,6 +1311,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eca90c032e49942da940c96e0c87bd96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1344389726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1344389718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1584072ec5e34c2a8ecd3cdd623e97f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dropLetterTime: 1
 --- !u!4 &1462065203
 Transform:
   m_ObjectHideFlags: 0

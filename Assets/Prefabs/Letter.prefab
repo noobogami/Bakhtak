@@ -130,7 +130,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BNormal: {fileID: 1957146192926176}
   BSelected: {fileID: 2207240977332041250}
-  letter: {fileID: 1022080666094928}
+  letterImage: {fileID: 212478023385253120}
+  selectedCount: 0
 --- !u!95 &1177757696290526576
 Animator:
   serializedVersion: 3

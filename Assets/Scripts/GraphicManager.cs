@@ -5,16 +5,19 @@ using UnityEngine;
 public class GraphicManager : MonoBehaviour
 {
     internal static GraphicManager instance;
-    void Start()
+    void Awake()
     {
         instance = this;
     }
 
-    public void initLetter(Letter targetLetter)
+    public void initLetter(Letter targetLetter, int id = -1)
     {
-        targetLetter.BNormal.SetActive(true);
-        targetLetter.BSelected.SetActive(false);
-        targetLetter.letterImage.SetActive(true);
+        if (id == -1)
+        {
+            targetLetter.BNormal.SetActive(true);
+            targetLetter.BSelected.SetActive(false);
+            targetLetter.letterImage.gameObject.SetActive(true);
+        }
     }
     public void SelectLetter(Letter targetLetter)
     {
@@ -27,6 +30,4 @@ public class GraphicManager : MonoBehaviour
         targetLetter.BNormal.SetActive(true);
         targetLetter.BSelected.SetActive(false);
     }
-
-
 }

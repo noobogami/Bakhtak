@@ -7,25 +7,23 @@ using UnityEngine.UI;
 
 public class Letter : MonoBehaviour, IPointerClickHandler
 {
-    [FormerlySerializedAs("backGroundNormal")] public GameObject BNormal;
-    [FormerlySerializedAs("backGroundSelected")] public GameObject BSelected;
-    [FormerlySerializedAs("letter")] public GameObject letterImage;
+    public GameObject BNormal;
+    public GameObject BSelected;
+    public SpriteRenderer letterImage;
     internal int id;
     internal int x, y;
     internal bool isSelected;
     
-    public int selectedCount;
 
     void Start()
     {
         isSelected = false;
-        selectedCount = -1;
         GraphicManager.instance.initLetter(this);
     }
 
     public void SetLetterId(int letterId)
     {
-        letterImage.GetComponent<SpriteRenderer>().sprite = ResourceManager.letters[letterId];
+        letterImage.sprite = ResourceManager.letters[letterId];
         id = letterId;
     }
 

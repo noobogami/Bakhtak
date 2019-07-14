@@ -6,8 +6,6 @@ using UPersian.Components;
 
 public class GameManager : MonoBehaviour
 {
-    private float timer;
-    public float dropLetterTime;
     public static GameManager instance;
     private bool isLost;
     
@@ -16,6 +14,7 @@ public class GameManager : MonoBehaviour
     private TableHandler tableHandler;
     private PopupHandler popupHandler;
     private GraphicManager graphicManager;
+    private TimeManager timeManager;
 
     public RtlText madeWord;
     private string word;
@@ -30,7 +29,6 @@ public class GameManager : MonoBehaviour
     private void init()
     {
         //GetComponent<PopupHandler>().ShowMessage("test");
-        timer = 0;
         isLost = false;
 
         madeWord.text = "";
@@ -39,12 +37,16 @@ public class GameManager : MonoBehaviour
         tableHandler = GetComponent<TableHandler>();
         popupHandler = GetComponent<PopupHandler>();
         graphicManager = GetComponent<GraphicManager>();
+        timeManager = GetComponent<TimeManager>();
     }
 
+    public void StartGame()
+    {
+        timeManager.ResetTimer();
+    }
     void Update()
     {
-        timer += Time.deltaTime;
-        if (timer > dropLetterTime && !isLost)
+        if (timeManager.IsDropTimeReached() && !isLost) 
         {
             try
             {
@@ -54,7 +56,6 @@ public class GameManager : MonoBehaviour
             {
                 GameOver();
             }
-            timer = 0;
         }
     }
     public void LetterClicked(Letter clickedLetter)

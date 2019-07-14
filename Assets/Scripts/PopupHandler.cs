@@ -26,16 +26,4 @@ public class PopupHandler : MonoBehaviour
     {
         wrongMessageBar.SetActive(true);
     }
-    
-    
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
